@@ -5,7 +5,8 @@
 <b>Skills Used:</b><br>
 Statistical Analysis<br>
 Exploratory Analysis<br>
-Machine Learning Models<br>
+Statistical Models<br>
+Machine Learning Algorithms<br>
 Variable Importance
 
 ## Introduction
