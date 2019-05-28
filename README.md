@@ -2,7 +2,7 @@
 
 <b>Programming Languages/Software:</b> R, RStudio
 
-<b>Skills Used:</b>
+<b>Skills Used:</b><br>
 Statistical Analysis<br>
 Exploratory Analysis<br>
 Machine Learning Models<br>
