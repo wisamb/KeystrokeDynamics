@@ -446,7 +446,7 @@ where mean.total.time is the mean of the repetitions for each subject per sessio
 Importance of the variables is measured by the mean decrease in accuracy as measured by MSE (%IncMSE). Order of importance is presented in Table 3 and in graphical form in Figure 6. Clearly, “time between key coming up to time to pressing next key down” (labeled UD) is most influential in determining total time to type entire passcode as these variables are ranked 10 of the top 11 spots in the feature analysis. This makes sense as transitioning between keys takes more time than holding down a key. Of more interest, however, we find the top 4 most important features involve transitioning between a letter key and a non-letter key (i.e., numbers, period, or return keys).
 
 <figure>
-  <figcaption>Figure 6. Order of Importance of Variables</figcaption>
+  <figcaption>Figure 6. Order of Variable Importance</figcaption>
   <img src="/images/unnamed-chunk-26-1.png" width="70%"/>
 </figure>
 
