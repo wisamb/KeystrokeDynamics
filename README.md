@@ -297,17 +297,25 @@ Using boxplots (Figure 2), there is a large number of outliers and several extre
 
 <table>
   <tr>
-    <th>
+    <td>
       <figure>
         <figcaption>Figure 2. Boxplots to identify anomalies</figcaption>
+      </figure> 
+    </td>
+    <td>
+      <figure>
+        <caption>Table 3. Frequency of Patients with Extreme Values</caption>
+      </figure> 
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <figure>
         <img src="/images/unnamed-chunk-11-1.png" width="90%"/>
       </figure> 
-    </th>
-    <th>
+    </td>
+    <td>
       <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-Table 3. Frequency of Patients with Extreme Values <br>
-</caption>
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -369,7 +377,7 @@ s049
 </tr>
 </tbody>
 </table>
-    </th>
+    </td>
   </tr>
 </table> 
 
