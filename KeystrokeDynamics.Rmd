@@ -1,0 +1,523 @@
+---
+title: "STAT 601 - Final Project"
+author: "Wisam Barkho"
+date: "12/10/2018"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message=F,warning=F,echo=F,fig_height=10,fig_width=7,cache = F)
+```
+
+```{r, echo=FALSE}
+#the following packages are required to run the code in this file
+# install.packages("knitr")
+# install.packages("kableExtra")
+# install.packages("ggplot2")
+# install.packages("gridExtra")
+# install.packages("dplyr")
+# install.packages("GGally")
+# install.packages("Hmisc")
+# install.packages("gam")
+# install.packages("lme4")
+# install.packages("multcomp")
+# install.packages("mgcv")
+# install.packages("gee")
+# install.packages("randomForest")
+# install.packages("mlbench")
+# install.packages("caret")
+# install.packages("doParallel") 
+```
+
+```{r, echo=FALSE}
+#load all packages 
+library(knitr)
+library(kableExtra)
+library(ggplot2)
+library(gridExtra)
+library(GGally)
+library(dplyr)
+library(Hmisc)
+library(gam)
+library(lme4)
+library(multcomp)
+library(mgcv)
+library(gee)
+library(randomForest)
+library(mlbench)
+library(caret)
+library(doParallel) 
+```
+
+```{r, echo=FALSE, results='hide'}
+#import the data set
+file <- "DSL-StrongPasswordData.txt"
+dat <- read.table(file, header = TRUE, sep = "")
+dat
+```
+
+#Exploratory Analysis
+
+##Missing Values
+
+Using the built-in `is.na` function to look for missing values, we find there are 0 missing values, and therefore do not need to imputate missing values.
+
+```{r, echo=FALSE}
+#count the number of missing values
+sum(is.na(dat))
+```
+
+##Correlated Features
+
+Using a correlation matrix, we find there are several highly correlated columns, namely columns that correspond to "time between pressing key down to time to pressing next key down" (labeled `DD`) with "time between key coming up to time to pressing next key down" (labeled `UD`). Using the `Hmisc` package correlated columns are listed in long form. Data corresponding to `DD` overlaps with "the amount of time a key is held down" (labeled `H`) and therefore will be excluded from our analysis.
+
+```{r, echo=FALSE}
+#custom function to format a correlation matrix in long form
+flattenCorrMatrix <- function(cormat, pmat) {
+  ut <- upper.tri(cormat)
+  data.frame(
+    row = rownames(cormat)[row(cormat)[ut]],
+    column = rownames(cormat)[col(cormat)[ut]],
+    cor  =(cormat)[ut],
+    p = pmat[ut]
+    )
+}
+```
+
+```{r, echo=FALSE}
+#drop the identifier columns
+X <- dat[,-c(1:3)]
+
+#create the correlation matrix
+corr.m <- rcorr(as.matrix(X))
+
+#flatten correlation matrix
+flatcorr.m <- flattenCorrMatrix(corr.m$r, corr.m$P)
+
+#sort correlation matrix
+flatcorr.sorted <- flatcorr.m[order(flatcorr.m$cor),]
+
+#select for correlated columns
+corr.columns <- flatcorr.sorted[flatcorr.sorted$cor > 0.7 | flatcorr.sorted$cor < -0.7,]
+corr.columns$cor <- round(corr.columns$cor, 3)
+
+#select for correlated columns
+kable(corr.columns[order(-corr.columns$cor),], caption="Correlated Variables for HCC Survival Dataset", booktabs = T) %>%
+  kable_styling(latex_options=c("striped","hold_position"), full_width = F)
+
+#drop correlated columns from original dataset
+corr.dat <- dat[ , !names(dat) %in% corr.columns$row] 
+```
+
+##Determining a Response Variable
+
+Summing each row will give "total time to type passcode" (`total.time`) and we add this column to the data table. Descriptive statistics for this variable are provided Table 1. The mean is greater than the median and there is a large gap between the maximum value and the 3rd quantile, suggesting a very long tail. Furthermore, visualizing the distribution of the `total.time` variable shows a skewness to the right. Plotting the `total.time` variable by session shows a general trend to decrease, however standard deviation is very high for this data set.
+
+```{r, echo=FALSE, results='hide'}
+#sum all rows to calculate total time
+corr.dat$total.time <- rowSums(corr.dat[,4:24])
+corr.dat
+```
+
+```{r, echo=FALSE}
+#summary statistics of total time
+x <- t(t(round(summary(corr.dat$total.time), 2)))
+
+kable(x, caption="Summary Statistics for Total Time", booktabs = T) %>%
+  kable_styling(latex_options=c("striped","hold_position"), full_width = F)
+```
+
+```{r, echo=FALSE}
+#distribution of total time
+p1 <- ggplot(corr.dat, (aes(x=total.time))) + 
+  geom_histogram(aes(y=..density..), binwidth=0.35, #histogram plot & binning
+                 color="white", fill="grey") +
+  #geom_density(color="red") +  #density curve
+  labs(title="Distribution of Total Time", x="Total Time", y="Density") + #labels
+  theme_minimal()
+```
+
+```{r, echo=FALSE, fig.height=4, fig.width=12}
+#calculate average for total time by session
+ave <- aggregate(corr.dat[,25], by=list(corr.dat$sessionIndex), FUN=mean)
+#calculate sd for total time by session
+sd <- aggregate(corr.dat[,25], by=list(corr.dat$sessionIndex), FUN=sd)
+#calculate median for total time by session
+median <- aggregate(corr.dat[,25], by=list(corr.dat$sessionIndex), FUN=median)
+
+#combine in one table
+sum.stats <- data.frame(session=rep(1:8, times=2), 
+                        stat=rbind(ave[2], median[2]), 
+                        sd=rbind(sd[2]), 
+                        Summary_Statistic=c(rep("Mean", times=8), rep("Median", times=8)))
+
+#median entries should be NA for sd column
+sum.stats$x.1[duplicated(sum.stats$x.1)] <- NA
+#sum.stats
+
+#plot mean and median over session ID
+p2 <- ggplot(sum.stats, aes(y=x, x=session, color=Summary_Statistic, fill=Summary_Statistic)) +
+  geom_point(size=3) +
+  geom_line(size=1, linetype="dashed") +
+  geom_errorbar(aes(ymin=x-x.1, ymax=x+x.1), size=0.5, width=0.3) +
+  labs(title="Total Time vs Session ID", subtitle="Trend Over Time", x="Session ID", y="Total Time") +
+  theme_minimal() 
+
+grid.arrange(p1, p2, nrow=1)
+```
+
+Using boxplots, we find a large number of outliers and several extreme values. (Extreme values are defined as having `total.time` greater than 10 seconds.) Outliers will not be removed due to their high numbers; however, subjects 036 and 049 are responsible for 31 of the 35 extreme data points (Table 2). Therefore, data from these two subjects will be excluded from our analysis.
+
+```{r, echo=FALSE}
+#boxplots to visualize anomolies
+ggplot(corr.dat, aes(y=total.time, x=sessionIndex, group=sessionIndex)) +
+  geom_boxplot(notch=TRUE, fill="lightblue") +
+  labs(title="Total Time vs Session ID", subtitle="Looking for Anomolies & Outliers", x="Session ID", y="Total Time") +
+  stat_summary(fun.y=mean, geom="point", color="darkred", shape=18, size=3) +
+  theme_minimal() + 
+  geom_hline(yintercept=10, linetype="dashed", color = "red")
+```
+
+```{r}
+#list outliers greater than 10 secs total.time
+anom.dat <- corr.dat[corr.dat$total.time > 10,]
+
+#count frequency of each suubject
+anom.df <- aggregate(anom.dat, by=list(anom.dat$subject), FUN=length)
+anom.df <- anom.df[, 1:2]
+
+#rename columns
+colnames(anom.df)[1] <- "Subject"
+colnames(anom.df)[2] <- "Frequency"
+
+kable(anom.df, caption="Summary Statistics for Total Time", booktabs = T) %>%
+  kable_styling(latex_options=c("striped","hold_position"), full_width = F)
+```
+
+```{r, echo=FALSE, results='hide'}
+#list outliers greater than 5 secs total.time
+anom.dat <- corr.dat[corr.dat$total.time > 5,]
+anom.freq <- as.data.frame(table(anom.dat$subject))
+colnames(anom.freq)[1] <- "subject"
+anom.freq[anom.freq$Freq > 100,]
+```
+
+```{r, echo=FALSE, results='hide'}
+#remove subjects 36 and 49 from dataset
+ol.dat <- corr.dat[!(corr.dat$subject %in% c("s036", "s049")),]
+ol.dat
+```
+
+We plot the distribution and trend over time of the final dataset. The distribution is still skewed left and has a long upper tail. Furthermore, there is still a general trend and high standard deviation for `total.time` to decrease across sessions.
+
+```{r, echo=FALSE, fig.width=12, fig.height=4}
+#distribution of total time
+histo <- ggplot(ol.dat, (aes(x=total.time))) + 
+            geom_histogram(aes(y=..density..), binwidth=0.25, #histogram plot & binning
+                           color="white", fill="grey") +
+            #geom_density(color="red") +  #density curve
+            labs(title="Distribution of Total Time", x="Total Time", y="Density") + #labels
+            theme_minimal()
+
+#calculate average for total time by session
+ave <- aggregate(ol.dat[,25], by=list(ol.dat$sessionIndex), FUN=mean)
+#calculate sd for total time by session
+sd <- aggregate(ol.dat[,25], by=list(ol.dat$sessionIndex), FUN=sd)
+#calculate median for total time by session
+median <- aggregate(ol.dat[,25], by=list(ol.dat$sessionIndex), FUN=median)
+
+#combine in one table
+sum.stats <- data.frame(session=rep(1:8, times=2), 
+                        stat=rbind(ave[2], median[2]), 
+                        sd=rbind(sd[2]), 
+                        Summary_Statistic=c(rep("Mean", times=8), rep("Median", times=8)))
+
+#median entries should be NA for sd column
+sum.stats$x.1[duplicated(sum.stats$x.1)] <- NA
+#sum.stats
+
+#plot mean and median over session ID
+sp <- ggplot(sum.stats, aes(y=x, x=session, color=Summary_Statistic, fill=Summary_Statistic)) +
+        geom_point(size=3) +
+        geom_line(size=1, linetype="dashed") +
+        geom_errorbar(aes(ymin=x-x.1, ymax=x+x.1), size=0.5, width=0.3) +
+        labs(title="Total Time vs Session ID", subtitle="Trend Over Time", x="Session ID", y="Total Time") +
+        theme_minimal() 
+
+grid.arrange(histo, sp, nrow = 1)
+```
+
+#Statistical Analysis
+
+```{r, echo=FALSE, results='hide'}
+#aggregate for the mean
+agg.dat <- aggregate(ol.dat, by=list(ol.dat$subject, ol.dat$sessionIndex), FUN=mean)
+agg.dat <- agg.dat[,-c(3:5)]
+
+#rename some columns
+colnames(agg.dat)[1] <- "subject"
+colnames(agg.dat)[2] <- "sessionIndex"
+colnames(agg.dat)[24] <- "mean.total.time"
+
+agg.dat[order(agg.dat$subject, agg.dat$sessionIndex),]
+```
+
+```{r, echo=FALSE, results='hide'}
+#total number of unique subjects
+length(unique(agg.dat$subject))
+```
+
+##Linear Mixed-Effects Model
+
+Linear mixed-effects models account for unseen variables, known as random effects, and are ideal for repeated measures data. We run two versions of this model: using subject alone for random effect (model 1) and using subject in relation to session for random effect (model 2). Although the AIC of Model 1 is lower, model 2 has a higher log-likelihood. Furthermore, when plotting residuals vs fitted values, model 1 shows non-constant variance, which we do not see in model 2. Both models show significance across sessions and significantly improved MSE's (model 1 MSE = 0.0338, model 2 MSE = 0.0215). 
+
+```{r, echo=FALSE, results='hide'}
+dataset <- agg.dat
+
+#split the first session from the rest
+df1 <- dataset[dataset$sessionIndex==1,]
+df2 <- dataset[!(dataset$sessionIndex==1),]
+
+#merge back as columns
+wide.dat <- merge(df1, df2, by=c("subject"))
+
+#some clean-up
+wide.dat <- wide.dat[order(wide.dat$subject,wide.dat$sessionIndex.y),]
+wide.dat
+```
+
+```{r, echo=FALSE}
+#test model 1 with random effect for each  subject 
+model1 <- lmer(mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject), 
+               data = wide.dat, REML = FALSE, na.action = na.omit)
+#test model 1 with random effect for each  subject by session
+model2 <- lmer(mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject), 
+               data = wide.dat, REML = FALSE, na.action = na.omit)
+
+anova(model1, model2)
+```
+
+```{r, echo=FALSE}
+plot(model1, main="Model 1", ylab="Residuals", xlab="Fitted Values")
+plot(model2, main="Model 2", ylab="Residuals", xlab="Fitted Values")
+```
+
+```{r, echo=FALSE}
+cftest(model1)
+cftest(model2)
+```
+
+###MSE Calculation for LME
+
+```{r, echo=FALSE}
+#prediction from the model
+fitted1 <- predict(model1, data=wide.dat, type="response")
+fitted2 <- predict(model2, data=wide.dat, type="response")
+
+#Calculate MSE
+mse.lmer1 <- mean((fitted1-wide.dat$mean.total.time.y)^2)
+paste("MSE of model 1 =", round(mse.lmer1, 7), sep=" ")
+#Calculate MSE
+mse.lmer2 <- mean((fitted2-wide.dat$mean.total.time.y)^2)
+paste("MSE of model 2 =", round(mse.lmer2, 7), sep=" ")
+```
+
+```{r, echo=FALSE}
+df <- data.frame(x=wide.dat$sessionIndex.y, y=summary(model2)$residuals)
+ggplot(df, (aes(x=x, y=y))) + 
+  geom_point(col="blue") + 
+  labs(title="Residuals of LME across Session ID", x="Session ID", y="Residuals") + 
+  theme_bw()
+```
+
+##Random Forest
+
+Random forest is used to determine which variables are most influential to determine `total.time` and if interactions exist between variables. The complete formula for the model is as such: 
+
+    mean.total.time~H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + H.n + UD.n.l + H.l + UD.l.Return + H.Return
+    
+where `mean.total.time` is the mean of the repititions for each subject per session. The model produces an MSE of 0.0247 which is comparable to the MSE of the mixed-effects model and is improved over the GEE model.
+
+```{r, echo=FALSE}
+#set formula
+formula <- (mean.total.time~H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + H.n + UD.n.l + H.l + UD.l.Return + H.Return)
+```
+
+###MSE Calculation for Random Forest
+
+```{r run_rf, echo=FALSE}
+#set seed
+set.seed(121)
+
+#run the randomForest algorithm
+rf <- randomForest(formula, data=agg.dat, mtry=7, importance=TRUE)
+
+#prediction from the model
+fitted <- predict(rf, data=agg.dat, type="response")
+
+#Calculate MSE
+mse.rf <- mean((fitted-agg.dat$mean.total.time)^2)
+paste("MSE =", round(mse.rf, 7), sep=" ")
+```
+
+##Feauture Analysis of Random Forest Model
+
+Importance of the variables is measured by mean decrease in accuracy as measured by MSE (`%IncMSE`). Order of importance is presented in Table 3 and graphical form below. Clearly, "time between key coming up to time to pressing next key down" (labeled `UD`) is most influential in determining total time to type entire passcode as these variables are ranked 10 of the top 11 spots in our feature analysis. This makes sense as transitioning between keys takes more time than holding down a key. Of more interest, however, we find the top 4 most important features involve transitioning between a letter key and a non-letter key (i.e., numbers, period, or Return keys).
+
+```{r, echo=FALSE}
+#determine most important features
+x <- importance(rf, 1)
+
+#sort by most important features
+x <- sort(x[,1], decreasing = T)
+
+#create data frame
+x <- round(as.data.frame(x), 4)
+colnames(x)[1] <- "%IncMSE"
+
+kable(x, caption="Summary Statistics for Total Time", booktabs = T) %>%
+  kable_styling(latex_options=c("striped","hold_position"), full_width = F)
+```
+
+```{r, echo=FALSE, fig.height=5, fig.width=8}
+#visualize most important features
+varImpPlot(rf, sort=TRUE, type=1, cex=0.8, pch=19, 
+           main="Variable Importance Plot of Random Forest Model")
+```
+
+###Recursive Feature Elimination
+
+Recursive Feature Elimination is performed to determine the extent each variable affects RMSE. From the graph below, we see a gradual decline in RMSE as the number of variables increase. Our random forest has an MSE of 0.0247 (equivalent to an RMSE of 0.157) which corresponds to the first 20 important variables (highlighted by the solid blue circle). 
+
+It is also worth noting that the above feature analysis is performed using the `randomForest` package while Recursive Feature Elimination is performed using the `caret` package. Each package produces a list of importance slightly different from one another; however, both packages are consistent in finding that the `UD` keys are most influential in determining `total.time`, that the top 4 most important features involve transitioning between a letter key and a non-letter key, and that the top 6 most important features are exactly the same between the two packages 
+
+```{r, echo=FALSE}
+#use parallel processing to speed up this process
+cl <- makeCluster(detectCores()-1, type='PSOCK')
+registerDoParallel(cl)
+```
+
+```{r run_rfe, echo=FALSE}
+#set seed
+set.seed(121)
+
+# define the control using a random forest selection function
+control <- rfeControl(functions=rfFuncs, method="cv", number=10)
+
+# run the RFE algorithm
+  #rfe takes more than an hour to run
+results <- rfe(agg.dat[3:23], agg.dat$mean.total.time, sizes=c(1:21), rfeControl=control)
+
+# plot the results
+plot(results, type=c("g", "o"), main="RMSE vs Variables of Random Forest Model")
+```
+
+```{r, echo=FALSE, results='hide'}
+#stop parallel processing
+stopCluster
+```
+
+###Features in order of importance
+
+```{r, echo=FALSE}
+# summarize the results
+# print(results)
+# list the chosen features
+predictors(results)
+```
+
+###Individual Features across Sessions
+
+```{r, echo=FALSE, fig.height=4, fig.width=4}
+for (i in 4:24) {
+  x<-ol.dat[i]
+
+  #calculate average for total time by session
+  ave <- aggregate(x, by=list(ol.dat$sessionIndex), FUN=mean)
+  #calculate sd for total time by session
+  sd <- aggregate(x, by=list(ol.dat$sessionIndex), FUN=sd)
+  #calculate median for total time by session
+  median <- aggregate(x, by=list(ol.dat$sessionIndex), FUN=median)
+  
+  #combine in one table
+  sum.stats <- data.frame(session=rep(1:8, times=2), 
+                          stat=rbind(ave[2], median[2]), 
+                          sd=rbind(sd[2]), 
+                          Summary_Statistic=c(rep("Mean", times=8), rep("Median", times=8)))
+  
+  #median entries should be NA for sd column
+  sum.stats[9:16,3] <- NA
+  colnames(sum.stats)[2] <- "y"
+  colnames(sum.stats)[3] <- "sd"
+  
+  #plot mean and median over session ID
+  sp <- ggplot(sum.stats, aes(y=y, x=session, color=Summary_Statistic, fill=Summary_Statistic)) +
+          geom_point(size=3) +
+          geom_line(size=1, linetype="dashed") +
+          geom_errorbar(aes(ymin=y-sd, ymax=y+sd), size=0.5, width=0.3) +
+          labs(title=paste(colnames(ol.dat)[i], "vs Session ID", sep=" "), 
+               x="Session ID", y=paste("Time to", colnames(ol.dat)[i], sep=" ")) +
+          theme_minimal() + 
+          theme(legend.position="none") 
+  print(sp)
+}
+ 
+```
+
+###Run the model with reduced features
+
+We run the `randomForest` algorithm removing the least important feature (`H.n`). The formula with these variables becomes:
+
+    mean.total.time ~ H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + UD.n.l + H.l + UD.l.Return + H.Return
+
+Running this algorithm, the MSE is slightly reduced (0.0236) as predicted by the feature analysis above. 
+
+```{r, echo=FALSE}
+#set formula with reduced number of features
+formula2 <- (mean.total.time~H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + UD.n.l + H.l + UD.l.Return + H.Return)
+
+#set seed
+set.seed(121)
+
+#run the randomForest algorithm
+rf <- randomForest(formula2, data=agg.dat, mtry=6, importance=TRUE)
+
+#prediction from the model
+fitted <- predict(rf, data=agg.dat, type="response")
+
+#Calculate MSE
+mse.rf <- mean((fitted-agg.dat$mean.total.time)^2)
+paste("MSE =", round(mse.rf, 7), sep=" ")
+```
+
+###Testing interactions
+
+From the 20 most important variables, we explore interactions between sequential keys resulting in an additional 18 variables. The formula including these interactions becomes: 
+
+    mean.total.time ~ H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + UD.n.l + H.l + UD.l.Return + H.Return + H.period: UD.period.t + UD.period.t: H.t + H.t: UD.t.i + UD.t.i: H.i + H.i: UD.i.e + UD.i.e: H.e + H.e: UD.e.five + UD.e.five: H.five + H.five: UD.five.Shift.r + UD.five.Shift.r: H.Shift.r + H.Shift.r: UD.Shift.r.o + UD.Shift.r.o: H.o + H.o: UD.o.a + UD.o.a: H.a + H.a: UD.a.n + UD.n.l: H.l + H.l: UD.l.Return + UD.l.Return: H.Return
+
+We find including these interaction terms do not improve the model's MSE and therefore should not be used when running the algorithm.
+
+```{r, echo=FALSE}
+#set formula with reduced number of features
+formula3 <- (mean.total.time~H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + UD.n.l + H.l + UD.l.Return + H.Return + H.period: UD.period.t + UD.period.t: H.t + H.t: UD.t.i + UD.t.i: H.i + H.i: UD.i.e + UD.i.e: H.e + H.e: UD.e.five + UD.e.five: H.five + H.five: UD.five.Shift.r + UD.five.Shift.r: H.Shift.r + H.Shift.r: UD.Shift.r.o + UD.Shift.r.o: H.o + H.o: UD.o.a + UD.o.a: H.a + H.a: UD.a.n + UD.n.l: H.l + H.l: UD.l.Return + UD.l.Return: H.Return)
+
+#set seed
+set.seed(121)
+
+#run the randomForest algorithm
+rf <- randomForest(formula3, data=agg.dat, mtry=6, importance=TRUE)
+
+#prediction from the model
+fitted <- predict(rf, data=agg.dat, type="response")
+
+#Calculate MSE
+mse.rf <- mean((fitted-agg.dat$mean.total.time)^2)
+paste("MSE =", round(mse.rf, 7), sep=" ")
+```
+
+
