@@ -296,7 +296,7 @@ Using boxplots (Figure 2), we find a large number of outliers and several extrem
 
 <figure>
   <figcaption>Figure 2. Boxplots to identify anomalies</figcaption>
-  <img src="/images/unnamed-chunk-11-1.png" width="85%"/>
+  <img src="/images/unnamed-chunk-11-1.png" width="70%"/>
 </figure> 
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -431,7 +431,7 @@ A linear mixed-effects model is ideal for longitudinal, repeated measures data a
 
 <figure>
   <figcaption>Figure 5. LME model 2: Residuals across Session ID</figcaption>
-  <img src="/images/unnamed-chunk-23-1.png" width="85%"/>
+  <img src="/images/unnamed-chunk-23-1.png" width="70%"/>
 </figure>
 
 ## Random Forest
@@ -447,191 +447,6 @@ where mean.total.time is the mean of the repetitions for each subject per sessio
 ### Feature Analysis
 
 Importance of the variables is measured by the mean decrease in accuracy as measured by MSE (%IncMSE). Order of importance is presented in Table 3 and in graphical form in Figure 6. Clearly, “time between key coming up to time to pressing next key down” (labeled UD) is most influential in determining total time to type entire passcode as these variables are ranked 10 of the top 11 spots in the feature analysis. This makes sense as transitioning between keys takes more time than holding down a key. Of more interest, however, we find the top 4 most important features involve transitioning between a letter key and a non-letter key (i.e., numbers, period, or return keys).
-
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<caption>
-Variable Importance of Random Forest Model
-</caption>
-<thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-%IncMSE
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-UD.five.Shift.r
-</td>
-<td style="text-align:right;">
-32.8568
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UD.l.Return
-</td>
-<td style="text-align:right;">
-24.0819
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UD.e.five
-</td>
-<td style="text-align:right;">
-22.2125
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UD.period.t
-</td>
-<td style="text-align:right;">
-18.5398
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UD.n.l
-</td>
-<td style="text-align:right;">
-15.9601
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UD.t.i
-</td>
-<td style="text-align:right;">
-14.9007
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UD.o.a
-</td>
-<td style="text-align:right;">
-13.9315
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UD.a.n
-</td>
-<td style="text-align:right;">
-13.6875
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UD.i.e
-</td>
-<td style="text-align:right;">
-12.4750
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.a
-</td>
-<td style="text-align:right;">
-10.9034
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-UD.Shift.r.o
-</td>
-<td style="text-align:right;">
-10.6764
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.period
-</td>
-<td style="text-align:right;">
-10.3422
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.e
-</td>
-<td style="text-align:right;">
-10.1186
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.Return
-</td>
-<td style="text-align:right;">
-9.3314
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.i
-</td>
-<td style="text-align:right;">
-8.9745
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.o
-</td>
-<td style="text-align:right;">
-8.6002
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.t
-</td>
-<td style="text-align:right;">
-8.3427
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.Shift.r
-</td>
-<td style="text-align:right;">
-8.1391
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.l
-</td>
-<td style="text-align:right;">
-7.3678
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.five
-</td>
-<td style="text-align:right;">
-6.3863
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-H.n
-</td>
-<td style="text-align:right;">
-5.6390
-</td>
-</tr>
-</tbody>
-</table>
 
 <figure>
   <figcaption>Figure 6. Order of Importance of Variables</figcaption>
@@ -650,13 +465,68 @@ It is also worth noting that the feature analysis in section 5.1 is performed us
 </figure>
 
 Features in order of importance
-##  [1] "UD.five.Shift.r" "UD.l.Return"     "UD.e.five"      
-##  [4] "UD.period.t"     "UD.n.l"          "UD.t.i"         
-##  [7] "UD.a.n"          "UD.i.e"          "UD.o.a"         
-## [10] "UD.Shift.r.o"    "H.period"        "H.e"            
-## [13] "H.i"             "H.a"             "H.t"            
-## [16] "H.l"             "H.Return"        "H.o"            
-## [19] "H.five"          "H.Shift.r"
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+  <tr>
+    <td>UD.five.Shift.r</td>
+  </tr>
+  <tr>
+    <td>UD.l.Return</td>
+  </tr>
+  <tr>
+    <td>UD.e.five</td>
+  </tr>
+  <tr>
+    <td>UD.period.t</td>
+  </tr>
+  <tr>
+    <td>UD.n.l</td>
+  </tr>
+  <tr>
+    <td>UD.t.i</td>
+  </tr>
+  <tr>
+    <td>UD.a.n</td>
+  </tr>
+  <tr>
+    <td>UD.i.e</td>
+  </tr>
+  <tr>
+    <td>UD.o.a</td>
+  </tr>
+  <tr>
+    <td>UD.Shift.r.o</td>
+  </tr>
+  <tr>
+    <td>H.period</td>
+  </tr>
+  <tr>
+    <td>H.e</td>
+  </tr>
+  <tr>
+    <td>H.i</td>
+  </tr>
+  <tr>
+    <td>H.a</td>
+  </tr>
+  <tr>
+    <td>H.t</td>
+  </tr>
+  <tr>
+    <td>H.l</td>
+  </tr>
+  <tr>
+    <td>H.Return</td>
+  </tr>
+  <tr>
+    <td>H.o</td>
+  </tr>
+  <tr>
+    <td>H.five</td>
+  </tr>
+  <tr>
+    <td>H.Shift.r</td>
+  </tr>
+</table>
 
 Each individual feature is also plotted across sessions (Figure 8) and plots are sorted by order of importance as determined by the caret package. It becomes obvious how importance is assigned as the most important features show a negative slope and the least important features have either a zero slope or a slightly positive slope.
 
@@ -664,34 +534,34 @@ Each individual feature is also plotted across sessions (Figure 8) and plots are
   <figcaption>Figure 8. Plots of Individual Features Across Sessions</figcaption>
   <table>
   <tr>
-    <th><img src="/images/unnamed-chunk-30-1.png" width="85%"/></th>
-    <th><img src="/images/unnamed-chunk-30-1.png" width="85%"/></th>
-    <th><img src="/images/unnamed-chunk-30-1.png" width="85%"/></th>
-    <th><img src="/images/unnamed-chunk-30-1.png" width="85%"/></th>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
   </tr>
   <tr>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
   </tr>
   <tr>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
   </tr>
   <tr>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
   </tr>
   <tr>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
-    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1.png"></td>
   </tr>
 </table>
 </figure>
