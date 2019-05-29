@@ -450,7 +450,7 @@ Importance of the variables is measured by the mean decrease in accuracy as meas
 
 <figure>
   <figcaption>Figure 6. Order of Importance of Variables</figcaption>
-  <img src="/images/unnamed-chunk-26-1.png" width="85%"/>
+  <img src="/images/unnamed-chunk-26-1.png" width="70%"/>
 </figure>
 
 ### Recursive Feature Elimination
@@ -461,7 +461,7 @@ It is also worth noting that the feature analysis in section 5.1 is performed us
 
 <figure>
   <figcaption>Figure 7. RMSE vs Variables of Random Forest Model</figcaption>
-  <img src="/images/run_rfe-1.png" width="85%"/>
+  <img src="/images/run_rfe-1.png" width="70%"/>
 </figure>
 
 Features in order of importance
@@ -565,3 +565,34 @@ Each individual feature is also plotted across sessions (Figure 8) and plots are
   </tr>
 </table>
 </figure>
+
+### Random Forest with Reduced Features
+
+We run the randomForest algorithm removing the least important feature (H.n). The formula becomes:
+
+<i>mean.total.time ~ H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + UD.n.l + H.l + UD.l.Return + H.Return </i>
+
+Running this algorithm, MSE is slightly reduced (0.0236) as predicted by the feature analysis above.
+
+### Testing for Interactions
+
+From the 20 most important variables, we explore the idea that interactions may exist when typing sequential keys, resulting in an additional 18 variables. The formula including these interactions becomes:
+
+<i>mean.total.time ~ H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + UD.n.l + H.l + UD.l.Return + H.Return + H.period:UD.period.t + UD.period.t:H.t + H.t:UD.t.i + UD.t.i:H.i + H.i:UD.i.e + UD.i.e:H.e + H.e:UD.e.five + UD.e.five:H.five + H.five:UD.five.Shift.r + UD.five.Shift.r:H.Shift.r + H.Shift.r:UD.Shift.r.o + UD.Shift.r.o:H.o + H.o:UD.o.a + UD.o.a:H.a + H.a:UD.a.n + UD.n.l:H.l + H.l:UD.l.Return + UD.l.Return:H.Return</i>
+
+We find including these interaction terms does not improve the model’s MSE (MSE=0.0236). With no apparent benefit, these interaction terms should not be used when running the algorithm.
+
+### Conclusion
+
+We used the data from Killourhy and Maxion and focused on typing speed, namely the speed to type the total passcode. We determined that typing speed does in fact decrease across sessions, implying that typing dynamics in general change as users become accustomed to typing a password. In particular, users become faster at transitioning between letter keys and a non-letter keys (i.e., numbers, period, or return keys). Recognizing this pattern, and potentially others, can lend itself to enhanced authentication methods as someone who is not accustomed to typing the password, i.e. a hacker, would show slower patterns.
+
+In addition, it would be necessary to investigate how these patterns might change based on age, sex, profession, and possibly many other factors. Some of this type of information may be collected from users voluntarily offering them, via memberships or clubs for example, while other information might be more difficult to collect, such as injury to an individual’s hand. No matter how the information is collected, any enhanced authentication methods would need to reliably factor in this information. 
+
+### References
+
+[1]	Bates, D., Mächler, M., Bolker, B. M., & Walker, S. C. (2015). Fitting Linear Mixed-Effects Models Using lme4. Journal of Statistical Software, 67(1), 1-48. doi:10.18637/jss.v067.i01
+[2]	Bergadano, F., Gunetti, D., & Picardi, C. (november 2002). User authentication through keystroke dynamics. ACM Transactions on Information and System Security (TISSEC), 5(4), 367-397.
+[3]	Hothorn, T. and Everitt, B. (2014). A handbook of statistical analyses using R. 3rd ed. Boca Raton: CRC Press.
+[4]	“Keystroke Dynamics - Benchmark Data Set,” https://www.cs.cmu.edu/~keystroke/#sec2, accessed: 2018-11-27.
+[5]	S. Killourhy, Kevin & Maxion, R.A.. (2009). Comparing Anomaly-Detection Algorithms for Keystroke Dynamics. IEEE/IFIP International Conference on Dependable Systems & Networks. 125 - 134. 10.1109/DSN.2009.5270346.
+[6]	Teh, P. S., Teoh, A. B., Tee, C., & Ong, T. S. (2010). Keystroke dynamics in password authentication enhancement. Expert Systems with Applications, 37(12), 8618-8627.
