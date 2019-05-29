@@ -382,11 +382,11 @@ ANOVA comparison of model 1 and model 2 <br>
     ## model1: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject) <br>
     ## model2: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject) <br>
     ##
-            | Df     | AIC      | BIC      | logLik | deviance | Chisq  | Chi Df | Pr(>Chisq)
-    ------- | ------ | -------- | -------- | ------ | -------- | ------ | ------ | --------------
-     model1 | 5      | -13.167  | 6.0216   | 11.584 | -23.167  | NA     | NA     | NA
-    ------- | ------ | -------- | -------- | ------ | -------- | ------ | ------ | --------------
-     model2 | 7      | -45.991  | -19.1266 | 29.995 | -59.991  | 36.824 | 2      | 1.009e-08 ***
+            | Df     | AIC      | BIC      | logLik | deviance | Chisq  | Chi Df | Pr(>Chisq) <br>
+    ------- | ------ | -------- | -------- | ------ | -------- | ------ | ------ | -------------- <br>
+     model1 | 5      | -13.167  | 6.0216   | 11.584 | -23.167  | NA     | NA     | NA <br>
+    ------- | ------ | -------- | -------- | ------ | -------- | ------ | ------ | -------------- <br>
+     model2 | 7      | -45.991  | -19.1266 | 29.995 | -59.991  | 36.824 | 2      | 1.009e-08 *** <br>
  
 <figure>
   <figcaption>Figure 4. LME models variance comparison</figcaption>
