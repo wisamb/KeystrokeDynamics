@@ -530,13 +530,13 @@ From the 20 most important variables, we explore the idea that interactions may 
 
 Including these interaction terms does not improve the model’s MSE (MSE=0.0236), and with no apparent benefit, these interaction terms should not be included.
 
-### Conclusion
+## Conclusion
 
 Using the data from Killourhy and Maxion, we determined that typing speed does in fact decrease across sessions, implying that typing dynamics in general change as users become accustomed to typing a password. In particular, users become faster at transitioning between letter keys and a non-letter keys (i.e., numbers, period, or return keys). Recognizing this pattern, and potentially others, can lend itself to enhanced authentication methods as someone who is not accustomed to typing the password, i.e. a hacker, would show slower patterns.
 
 In addition, it would be necessary to investigate how these patterns might change based on age, sex, profession, and possibly many other factors. Some of this type of information may be collected from users voluntarily, while other information might be more difficult to collect, such as injury to an individual’s hand. No matter how the information is collected, any enhanced authentication methods would need to reliably factor in this information. 
 
-### References
+## References
 
 1. Bates, D., Mächler, M., Bolker, B. M., & Walker, S. C. (2015). Fitting Linear Mixed-Effects Models Using lme4. Journal of Statistical Software, 67(1), 1-48. doi:10.18637/jss.v067.i01 
 2. Bergadano, F., Gunetti, D., & Picardi, C. (november 2002). User authentication through keystroke dynamics. ACM Transactions on Information and System Security (TISSEC), 5(4), 367-397. 
