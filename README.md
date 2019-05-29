@@ -28,6 +28,8 @@ Speed is the crucial factor that is analyzed. More specifically, the total time 
 
 There are no missing values in this dataset, and therefore there is not a need to imputate missing values.
 
+### Correlated Variables
+
 Using a correlation matrix, we find there are several highly correlated columns, namely columns that correspond to “time between pressing key down to time to pressing next key down” (labeled DD) with “time between key coming up to time to pressing next key down” (labeled UD). Using a custom function, correlated columns are listed in long form. Data corresponding to DD overlaps with “the amount of time a key is held down” (labeled H). Therefore, features labeled DD will be excluded from our analysis.
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
