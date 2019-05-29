@@ -288,20 +288,20 @@ Max.
 </table>
 
 <figure>
-  <img src="/images/unnamed-chunk-10-1.png" style="width:80%">
   <figcaption>Figure 1. Distribution and trend over time of response variable, total.time</figcaption>
+  <img src="/images/unnamed-chunk-10-1.png" style="width:80%">
 </figure> 
 
 Using boxplots (Figure 2), we find a large number of outliers and several extreme values. Extreme values are defined as having total.time greater than 10 seconds. Outliers will not be removed due to their high numbers; however, subjects 036 and 049 account for 31 of the 35 extreme data points (Table 2). Therefore, data from these two subjects are excluded from the analysis.
 
 <figure>
-  <img src="/images/unnamed-chunk-11-1.png" style="width:80%">
   <figcaption>Figure 2. Boxplots to identify anomalies</figcaption>
+  <img src="/images/unnamed-chunk-11-1.png" style="width:80%">
 </figure> 
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Table 2: Patients with Extreme Values (total.time greater than 10 seconds)
+Patients with Extreme Values (total.time greater than 10 seconds)
 </caption>
 <thead>
 <tr>
@@ -368,6 +368,6 @@ s049
 Figure 3 plots the distribution and trend over time of the final dataset. The distribution is still skewed right and has a long upper tail. The general trend to decrease across sessions and high standard deviation for the total.time variable are also still present.
 
 <figure>
-  <img src="/images/unnamed-chunk-15-1.png" style="width:80%">
   <figcaption>Figure 3. Distribution and trend over time of the final dataset</figcaption>
+  <img src="/images/unnamed-chunk-15-1.png" style="width:80%">
 </figure> 
