@@ -425,4 +425,273 @@ ANOVA comparison of model 1 and model 2
     </table> 
 </figure>
 
+### Appropriateness of the LME Model
 
+A linear mixed-effects model is ideal for longitudinal, repeated measures data and also accounts for unseen variables, known as random effects, such as differences between subjects. Furthermore, the model is suitable when the distribution conditional on the predictors is normal. Residuals of the model are plotted across session ID in Figure 5 and show that variability of the residuals is constant as the sessions progress. Therefore, the linear mixed-effect model is appropriate for analysis on this dataset and switching to generalized estimating equations is unnecessary. 
+
+<figure>
+  <figcaption>Figure 5. LME model 2: Residuals across Session ID</figcaption>
+  <img src="/images/unnamed-chunk-23-1.png" width="85%"/>
+</figure>
+
+## Random Forest
+
+Ensemble decision trees are known to be some of the most powerful algorithms. It is of interest to analyze the data with a random forest model in addition to the linear mixed-effects model. 
+
+To use this model, we express total.time as a response to each of the 21 variables that were measured. The complete formula for the model is as such:
+
+<i>mean.total.time ~ H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + H.n + UD.n.l + H.l + UD.l.Return + H.Return</i>
+
+where mean.total.time is the mean of the repetitions for each subject per session. The model produces an MSE of 0.0247, which is comparable to the MSE of the mixed-effects model.
+
+### Feature Analysis
+
+Importance of the variables is measured by the mean decrease in accuracy as measured by MSE (%IncMSE). Order of importance is presented in Table 3 and in graphical form in Figure 6. Clearly, “time between key coming up to time to pressing next key down” (labeled UD) is most influential in determining total time to type entire passcode as these variables are ranked 10 of the top 11 spots in the feature analysis. This makes sense as transitioning between keys takes more time than holding down a key. Of more interest, however, we find the top 4 most important features involve transitioning between a letter key and a non-letter key (i.e., numbers, period, or return keys).
+
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<caption>
+Variable Importance of Random Forest Model
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+%IncMSE
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+UD.five.Shift.r
+</td>
+<td style="text-align:right;">
+32.8568
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UD.l.Return
+</td>
+<td style="text-align:right;">
+24.0819
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UD.e.five
+</td>
+<td style="text-align:right;">
+22.2125
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UD.period.t
+</td>
+<td style="text-align:right;">
+18.5398
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UD.n.l
+</td>
+<td style="text-align:right;">
+15.9601
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UD.t.i
+</td>
+<td style="text-align:right;">
+14.9007
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UD.o.a
+</td>
+<td style="text-align:right;">
+13.9315
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UD.a.n
+</td>
+<td style="text-align:right;">
+13.6875
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UD.i.e
+</td>
+<td style="text-align:right;">
+12.4750
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.a
+</td>
+<td style="text-align:right;">
+10.9034
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+UD.Shift.r.o
+</td>
+<td style="text-align:right;">
+10.6764
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.period
+</td>
+<td style="text-align:right;">
+10.3422
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.e
+</td>
+<td style="text-align:right;">
+10.1186
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.Return
+</td>
+<td style="text-align:right;">
+9.3314
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.i
+</td>
+<td style="text-align:right;">
+8.9745
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.o
+</td>
+<td style="text-align:right;">
+8.6002
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.t
+</td>
+<td style="text-align:right;">
+8.3427
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.Shift.r
+</td>
+<td style="text-align:right;">
+8.1391
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.l
+</td>
+<td style="text-align:right;">
+7.3678
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.five
+</td>
+<td style="text-align:right;">
+6.3863
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+H.n
+</td>
+<td style="text-align:right;">
+5.6390
+</td>
+</tr>
+</tbody>
+</table>
+
+<figure>
+  <figcaption>Figure 6. Order of Importance of Variables</figcaption>
+  <img src="/images/unnamed-chunk-26-1.png" width="85%"/>
+</figure>
+
+### Recursive Feature Elimination
+
+Recursive feature elimination is performed to determine the extent each variable affects MSE of the random forest model. Figure 7 shows a gradual decline in RMSE as the number of variables increase. Our random forest has an MSE of 0.0247 (equivalent to an RMSE of 0.157) which corresponds to the first 20 important variables (highlighted by the solid blue circle).
+It is also worth noting that the feature analysis in section 5.1 is performed using the randomForest package while recursive feature elimination is performed using the caret package. Each package produces a list of importance slightly different from the other. However, both packages are consistent in finding that the UD keys are most influential in determining total.time, that the top 4 most important features involve transitioning between a letter key and a non-letter key, and that the top 6 most important features are exactly the same between the two packages.
+
+
+<figure>
+  <figcaption>Figure 7. RMSE vs Variables of Random Forest Model</figcaption>
+  <img src="/images/run_rfe-1.png" width="85%"/>
+</figure>
+
+Features in order of importance
+##  [1] "UD.five.Shift.r" "UD.l.Return"     "UD.e.five"      
+##  [4] "UD.period.t"     "UD.n.l"          "UD.t.i"         
+##  [7] "UD.a.n"          "UD.i.e"          "UD.o.a"         
+## [10] "UD.Shift.r.o"    "H.period"        "H.e"            
+## [13] "H.i"             "H.a"             "H.t"            
+## [16] "H.l"             "H.Return"        "H.o"            
+## [19] "H.five"          "H.Shift.r"
+
+Each individual feature is also plotted across sessions (Figure 8) and plots are sorted by order of importance as determined by the caret package. It becomes obvious how importance is assigned as the most important features show a negative slope and the least important features have either a zero slope or a slightly positive slope.
+
+<figure>
+  <figcaption>Figure 8. Plots of Individual Features Across Sessions</figcaption>
+  <table>
+  <tr>
+    <th><img src="/images/unnamed-chunk-30-1.png" width="85%"/></th>
+    <th><img src="/images/unnamed-chunk-30-1.png" width="85%"/></th>
+    <th><img src="/images/unnamed-chunk-30-1.png" width="85%"/></th>
+    <th><img src="/images/unnamed-chunk-30-1.png" width="85%"/></th>
+  </tr>
+  <tr>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+  </tr>
+  <tr>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+  </tr>
+  <tr>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+  </tr>
+  <tr>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+    <td><img src="/images/unnamed-chunk-30-1.png" width="85%"/></td>
+  </tr>
+</table>
+</figure>
