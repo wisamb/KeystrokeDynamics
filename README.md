@@ -296,7 +296,7 @@ Using boxplots (Figure 2), we find a large number of outliers and several extrem
 
 <figure>
   <figcaption>Figure 2. Boxplots to identify anomalies</figcaption>
-  <img src="/images/unnamed-chunk-11-1.png" style="width:80%">
+  <img src="/images/unnamed-chunk-11-1.png" style="width:60%">
 </figure> 
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -376,17 +376,17 @@ Figure 3 plots the distribution and trend over time of the final dataset. The di
 
 We run two versions of the linear mixed-effects model: using subject alone for random effect (model 1) and using subject in relation to session ID for random effect (model 2). Although the AIC of Model 1 is lower, model 2 has a higher log-likelihood. Furthermore, when plotting residuals vs fitted values (Figure 4), model 1 shows non-constant variance, which we do not see in model 2. Therefore, model 2 is the model of choice. Both models, however, report significance across sessions and highly accurate MSEs (model 1 MSE = 0.0338, model 2 MSE = 0.0215).
 
-ANOVA comparison of model 1 and model 2
-    ## Data: wide.dat
-    ## Models:
-    ## model1: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject)
-    ## model2: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject)
-    ##
-    ##        Df     AIC      BIC logLik deviance  Chisq Chi Df Pr(>Chisq)    
-    ## model1  5 -13.167   6.0216 11.584  -23.167                             
-    ## model2  7 -45.991 -19.1266 29.995  -59.991 36.824      2  1.009e-08 ***
-    ## ---
-    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+ANOVA comparison of model 1 and model 2 <br>
+    ## Data: wide.dat <br>
+    ## Models: <br>
+    ## model1: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject) <br>
+    ## model2: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject) <br>
+    ## <br>
+    ##        Df     AIC      BIC logLik deviance  Chisq Chi Df Pr(>Chisq)    <br> 
+    ## model1  5 -13.167   6.0216 11.584  -23.167                             <br> 
+    ## model2  7 -45.991 -19.1266 29.995  -59.991 36.824      2  1.009e-08 *** <br>
+    ## --- <br>
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 <br>
 
 <figure>
   <figcaption>Figure 4. LME models variance comparison</figcaption>
@@ -397,4 +397,5 @@ ANOVA comparison of model 1 and model 2
     <div class="column">
         <img src="unnamed-chunk-20-2.png" style="width:80%">
     </div>
+   </div>
 </figure>
