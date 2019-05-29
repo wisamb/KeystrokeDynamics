@@ -228,7 +228,7 @@ UD.a.n
 
 ### Characterization of the Response Variable 
 
-After removing correlated columns, the sum of each row yields “total time to type passcode” (total.time). Descriptive statistics for this variable are provided in Table 2. The mean is greater than the median and there is a large gap between the maximum value and the 3rd quantile, suggesting a very long tail. Visualization of the distribution of the total.time variable (Figure 1) validates this finding and shows a skewness to the right. Plotting the total.time variable by session (Figure 1) shows a general trend to decrease, although standard deviation is very high in this data set.
+After removing correlated columns, the sum of each row yields “total time to type passcode” (total.time). Descriptive statistics for the response variable are provided in Table 2. The mean is greater than the median and there is a large gap between the maximum value and the 3rd quantile, suggesting a very long tail. Visualization of the distribution of the total.time variable (Figure 1) validates this finding and shows a skewness to the right. Plotting the total.time variable by session (Figure 1) shows a general trend to decrease, although standard deviation is very high in this data set.
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
@@ -290,6 +290,8 @@ Max.
   <figcaption>Figure 1. Distribution and trend over time of response variable, total.time</figcaption>
   <img src="/images/unnamed-chunk-10-1.png" style="width:80%">
 </figure> 
+
+### Detection of Outliers
 
 Using boxplots (Figure 2), there is a large number of outliers and several extreme values. Extreme values are defined as having total.time greater than 10 seconds. Outliers will not be removed due to their high numbers; however, subjects 036 and 049 account for 31 of the 35 extreme data points (Table 3). Therefore, data from these two subjects are excluded from the analysis.
 
@@ -452,7 +454,7 @@ Importance of the variables is measured by the mean decrease in accuracy as meas
 
 ### Recursive Feature Elimination
 
-Recursive feature elimination is performed to determine the extent each variable affects MSE of the random forest model. Figure 7 shows a gradual decline in RMSE as the number of variables increase. Our random forest has an MSE of 0.0247 (equivalent to an RMSE of 0.157) which corresponds to the first 20 important variables (highlighted by the solid blue circle).
+Recursive feature elimination is performed to determine the extent each variable affects MSE of the random forest model. Figure 7 shows a gradual decline in RMSE as the number of variables increase. Our random forest has an MSE of 0.0247 (equivalent to an RMSE of 0.157) which corresponds to the first 20 important variables (highlighted by the solid blue circle). The least important feature corresponds to holding down the "n" key (H.n).
 
 <figure>
   <figcaption>Figure 7. RMSE vs Variables of Random Forest Model</figcaption>
