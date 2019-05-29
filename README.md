@@ -11,7 +11,7 @@ Variable Importance
 
 ## Introduction
 
-Keystroke dynamics has been a topic of research since the early 1980s.<sup>3</sup> It is a behavioral biometric that can potentially identify a user based on their typing habits. With the burgeoning market of e-commerce over the past decade, keystroke dynamics has presented itself as a potential added layer of security. The phenomenon is based on the idea that each individual possesses his or her own unique typing habits. By analyzing the way users type, password protected websites can use it in combination with passwords to authenticate a user. 
+Keystroke dynamics has been a topic of research since the early 1980s.<sup>6</sup> It is a behavioral biometric that can potentially identify a user based on their typing habits. With the burgeoning market of e-commerce over the past decade, keystroke dynamics has presented itself as a potential added layer of security. The phenomenon is based on the idea that each individual possesses his or her own unique typing habits. By analyzing the way users type, password protected websites can use it in combination with passwords to authenticate a user. 
 
 However, keystroke dynamics is not without its criticisms. As a behavioral biometric, as opposed to physiological biometrics such as fingerprints, there is an intrinsic variability associated with typing dynamics.<sup>2</sup> For example, do typing patterns change when the same password or pass-phrase is typed repeatedly? How does an injury to an individual’s hand affect typing behavior? Does age, sex, or profession influence the way people type? 
 
