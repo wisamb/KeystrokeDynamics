@@ -287,3 +287,7 @@ Max.
 </tbody>
 </table>
 
+ <figure>
+  <img src="unnamed-chunk-10-1.png" style="width:80%">
+  <figcaption>Figure 1. Distribution and trend over time of response variable, total.time</figcaption>
+</figure> 
