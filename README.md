@@ -25,9 +25,7 @@ Speed is the crucial factor that is analyzed. More specifically, the total time 
 
 ## Exploratory Analysis
 
-Using the built-in `is.na` function to look for missing values, we find there are 0 missing values, and therefore do not need to imputate missing values.
-
-    ## [1] 0
+There are no missing values in this dataset, and therefore there is not a need to imputate missing values.
 
 Using a correlation matrix, we find there are several highly correlated columns, namely columns that correspond to “time between pressing key down to time to pressing next key down” (labeled DD) with “time between key coming up to time to pressing next key down” (labeled UD). Using a custom function, correlated columns are listed in long form. Data corresponding to DD overlaps with “the amount of time a key is held down” (labeled H). Therefore, features labeled DD will be excluded from our analysis.
 
@@ -378,9 +376,8 @@ We run two versions of the linear mixed-effects model: using subject alone for r
 
 ANOVA comparison of model 1 and model 2
 
-    ## Models: <br>
-    ## model1: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject) 
-    ## model2: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject)
+    model1: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject) 
+    model2: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject)
     
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
   <tr>
