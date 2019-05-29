@@ -296,7 +296,7 @@ Using boxplots (Figure 2), we find a large number of outliers and several extrem
 
 <figure>
   <figcaption>Figure 2. Boxplots to identify anomalies</figcaption>
-  <img src="/images/unnamed-chunk-11-1.png" width="70%"/>
+  <img src="/images/unnamed-chunk-11-1.png" width="85%"/>
 </figure> 
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
