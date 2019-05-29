@@ -590,9 +590,9 @@ In addition, it would be necessary to investigate how these patterns might chang
 
 ### References
 
-[1]	Bates, D., Mächler, M., Bolker, B. M., & Walker, S. C. (2015). Fitting Linear Mixed-Effects Models Using lme4. Journal of Statistical Software, 67(1), 1-48. doi:10.18637/jss.v067.i01
-[2]	Bergadano, F., Gunetti, D., & Picardi, C. (november 2002). User authentication through keystroke dynamics. ACM Transactions on Information and System Security (TISSEC), 5(4), 367-397.
-[3]	Hothorn, T. and Everitt, B. (2014). A handbook of statistical analyses using R. 3rd ed. Boca Raton: CRC Press.
-[4]	“Keystroke Dynamics - Benchmark Data Set,” https://www.cs.cmu.edu/~keystroke/#sec2, accessed: 2018-11-27.
-[5]	S. Killourhy, Kevin & Maxion, R.A.. (2009). Comparing Anomaly-Detection Algorithms for Keystroke Dynamics. IEEE/IFIP International Conference on Dependable Systems & Networks. 125 - 134. 10.1109/DSN.2009.5270346.
-[6]	Teh, P. S., Teoh, A. B., Tee, C., & Ong, T. S. (2010). Keystroke dynamics in password authentication enhancement. Expert Systems with Applications, 37(12), 8618-8627.
+[1]	Bates, D., Mächler, M., Bolker, B. M., & Walker, S. C. (2015). Fitting Linear Mixed-Effects Models Using lme4. Journal of Statistical Software, 67(1), 1-48. doi:10.18637/jss.v067.i01 <br>
+[2]	Bergadano, F., Gunetti, D., & Picardi, C. (november 2002). User authentication through keystroke dynamics. ACM Transactions on Information and System Security (TISSEC), 5(4), 367-397. <br>
+[3]	Hothorn, T. and Everitt, B. (2014). A handbook of statistical analyses using R. 3rd ed. Boca Raton: CRC Press. <br>
+[4]	“Keystroke Dynamics - Benchmark Data Set,” https://www.cs.cmu.edu/~keystroke/#sec2, accessed: 2018-11-27. <br>
+[5]	S. Killourhy, Kevin & Maxion, R.A.. (2009). Comparing Anomaly-Detection Algorithms for Keystroke Dynamics. IEEE/IFIP International Conference on Dependable Systems & Networks. 125 - 134. 10.1109/DSN.2009.5270346. <br>
+[6]	Teh, P. S., Teoh, A. B., Tee, C., & Ong, T. S. (2010). Keystroke dynamics in password authentication enhancement. Expert Systems with Applications, 37(12), 8618-8627. <br>
