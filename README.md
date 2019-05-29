@@ -3,7 +3,8 @@
 <b>Programming Languages/Software:</b> R, RStudio
 
 <b>Skills Used:</b><br>
-Statistical Analysis<br>
+Data Analysis<br>
+Data Visualization<br>
 Exploratory Analysis<br>
 Statistical Models<br>
 Machine Learning Algorithms<br>
@@ -31,7 +32,7 @@ Using a correlation matrix, we find there are several highly correlated columns,
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Correlated Variables for HCC Survival Dataset
+Table 1. Correlated Variables for HCC Survival Dataset
 </caption>
 <thead>
 <tr>
@@ -227,11 +228,11 @@ UD.a.n
 
 ### Characterization of the Response Variable 
 
-After removing correlated columns, the sum of each row yields “total time to type passcode” (total.time). Descriptive statistics for this variable are provided in Table 1. The mean is greater than the median and there is a large gap between the maximum value and the 3rd quantile, suggesting a very long tail. Visualization of the distribution of the total.time variable (Figure 1) validates this finding and shows a skewness to the right. Plotting the total.time variable by session (Figure 1) shows a general trend to decrease, although standard deviation is very high in this data set.
+After removing correlated columns, the sum of each row yields “total time to type passcode” (total.time). Descriptive statistics for this variable are provided in Table 2. The mean is greater than the median and there is a large gap between the maximum value and the 3rd quantile, suggesting a very long tail. Visualization of the distribution of the total.time variable (Figure 1) validates this finding and shows a skewness to the right. Plotting the total.time variable by session (Figure 1) shows a general trend to decrease, although standard deviation is very high in this data set.
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Summary Statistics for Total Time
+Table 2. Summary Statistics for Total Time
 </caption>
 <tbody>
 <tr>
@@ -290,7 +291,7 @@ Max.
   <img src="/images/unnamed-chunk-10-1.png" style="width:80%">
 </figure> 
 
-Using boxplots (Figure 2), we find a large number of outliers and several extreme values. Extreme values are defined as having total.time greater than 10 seconds. Outliers will not be removed due to their high numbers; however, subjects 036 and 049 account for 31 of the 35 extreme data points (Table 2). Therefore, data from these two subjects are excluded from the analysis.
+Using boxplots (Figure 2), there is a large number of outliers and several extreme values. Extreme values are defined as having total.time greater than 10 seconds. Outliers will not be removed due to their high numbers; however, subjects 036 and 049 account for 31 of the 35 extreme data points (Table 3). Therefore, data from these two subjects are excluded from the analysis.
 
 <figure>
   <figcaption>Figure 2. Boxplots to identify anomalies</figcaption>
@@ -299,7 +300,7 @@ Using boxplots (Figure 2), we find a large number of outliers and several extrem
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Patients with Extreme Values (total.time greater than 10 seconds)
+Table 3. Frequency of Patients with Extreme Values 
 </caption>
 <thead>
 <tr>
@@ -374,11 +375,10 @@ Figure 3 plots the distribution and trend over time of the final dataset. The di
 
 We run two versions of the linear mixed-effects model: using subject alone for random effect (model 1) and using subject in relation to session ID for random effect (model 2). Although the AIC of Model 1 is lower, model 2 has a higher log-likelihood. Furthermore, when plotting residuals vs fitted values (Figure 4), model 1 shows non-constant variance, which we do not see in model 2. Therefore, model 2 is the model of choice. Both models, however, report significance across sessions and highly accurate MSEs (model 1 MSE = 0.0338, model 2 MSE = 0.0215).
 
-ANOVA comparison of model 1 and model 2
-
     model1: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject) 
     model2: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject)
-    
+
+Table 4. ANOVA comparison of model 1 and model 2
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
   <tr>
     <th></th>
@@ -424,7 +424,7 @@ ANOVA comparison of model 1 and model 2
 
 ### Appropriateness of the LME Model
 
-A linear mixed-effects model is ideal for longitudinal, repeated measures data and also accounts for unseen variables, known as random effects, such as differences between subjects. Furthermore, the model is suitable when the distribution conditional on the predictors is normal. Residuals of the model are plotted across session ID in Figure 5 and show that variability of the residuals is constant as the sessions progress. Therefore, the linear mixed-effect model is appropriate for analysis on this dataset and switching to generalized estimating equations is unnecessary. 
+A linear mixed-effects model is ideal for longitudinal, repeated measures data such this dataset, and also accounts for unseen variables, known as random effects, such as differences between subjects. Furthermore, the model is suitable when the distribution conditional on the predictors is normal. Residuals of the model are plotted across session ID in Figure 5 and show that variability of the residuals is constant as the sessions progress. Therefore, the linear mixed-effect model is appropriate for analysis on this dataset and switching to generalized estimating equations is unnecessary. 
 
 <figure>
   <figcaption>Figure 5. LME model 2: Residuals across Session ID</figcaption>
@@ -443,7 +443,7 @@ where mean.total.time is the mean of the repetitions for each subject per sessio
 
 ### Feature Analysis
 
-Importance of the variables is measured by the mean decrease in accuracy as measured by MSE (%IncMSE). Order of importance is presented in Table 3 and in graphical form in Figure 6. Clearly, “time between key coming up to time to pressing next key down” (labeled UD) is most influential in determining total time to type entire passcode as these variables are ranked 10 of the top 11 spots in the feature analysis. This makes sense as transitioning between keys takes more time than holding down a key. Of more interest, however, we find the top 4 most important features involve transitioning between a letter key and a non-letter key (i.e., numbers, period, or return keys).
+Importance of the variables is measured by the mean decrease in accuracy as measured by MSE (%IncMSE). Order of importance is presented in Figure 6. Clearly, “time between key coming up to time to pressing next key down” (labeled UD) is most influential in determining total time to type entire passcode as these variables are ranked 10 of the top 11 spots in the feature analysis. This makes sense as transitioning between keys takes more time than holding down a key. Of more interest, however, we find the top 4 most important features involve transitioning between a letter key and a non-letter key (i.e., numbers, period, or return keys).
 
 <figure>
   <figcaption>Figure 6. Order of Variable Importance</figcaption>
@@ -453,79 +453,13 @@ Importance of the variables is measured by the mean decrease in accuracy as meas
 ### Recursive Feature Elimination
 
 Recursive feature elimination is performed to determine the extent each variable affects MSE of the random forest model. Figure 7 shows a gradual decline in RMSE as the number of variables increase. Our random forest has an MSE of 0.0247 (equivalent to an RMSE of 0.157) which corresponds to the first 20 important variables (highlighted by the solid blue circle).
-It is also worth noting that the feature analysis in section 5.1 is performed using the randomForest package while recursive feature elimination is performed using the caret package. Each package produces a list of importance slightly different from the other. However, both packages are consistent in finding that the UD keys are most influential in determining total.time, that the top 4 most important features involve transitioning between a letter key and a non-letter key, and that the top 6 most important features are exactly the same between the two packages.
-
 
 <figure>
   <figcaption>Figure 7. RMSE vs Variables of Random Forest Model</figcaption>
   <img src="/images/run_rfe-1.png" width="70%"/>
 </figure>
 
-Features in order of importance
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-  <tr>
-    <td>UD.five.Shift.r</td>
-  </tr>
-  <tr>
-    <td>UD.l.Return</td>
-  </tr>
-  <tr>
-    <td>UD.e.five</td>
-  </tr>
-  <tr>
-    <td>UD.period.t</td>
-  </tr>
-  <tr>
-    <td>UD.n.l</td>
-  </tr>
-  <tr>
-    <td>UD.t.i</td>
-  </tr>
-  <tr>
-    <td>UD.a.n</td>
-  </tr>
-  <tr>
-    <td>UD.i.e</td>
-  </tr>
-  <tr>
-    <td>UD.o.a</td>
-  </tr>
-  <tr>
-    <td>UD.Shift.r.o</td>
-  </tr>
-  <tr>
-    <td>H.period</td>
-  </tr>
-  <tr>
-    <td>H.e</td>
-  </tr>
-  <tr>
-    <td>H.i</td>
-  </tr>
-  <tr>
-    <td>H.a</td>
-  </tr>
-  <tr>
-    <td>H.t</td>
-  </tr>
-  <tr>
-    <td>H.l</td>
-  </tr>
-  <tr>
-    <td>H.Return</td>
-  </tr>
-  <tr>
-    <td>H.o</td>
-  </tr>
-  <tr>
-    <td>H.five</td>
-  </tr>
-  <tr>
-    <td>H.Shift.r</td>
-  </tr>
-</table>
-
-Each individual feature is also plotted across sessions (Figure 8) and plots are sorted by order of importance as determined by the caret package. It becomes obvious how importance is assigned as the most important features show a negative slope and the least important features have either a zero slope or a slightly positive slope.
+Each individual feature is also plotted across sessions (Figure 8) and plots are sorted by order of importance. It becomes obvious how importance is assigned as the most important features show a negative slope and the least important features have either a zero slope or a slightly positive slope.
 
 <figure>
   <figcaption>Figure 8. Plots of Individual Features Across Sessions</figcaption>
@@ -569,21 +503,21 @@ We run the randomForest algorithm removing the least important feature (H.n). Th
 
 <i>mean.total.time ~ H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + UD.n.l + H.l + UD.l.Return + H.Return </i>
 
-Running this algorithm, MSE is slightly reduced (0.0236) as predicted by the feature analysis above.
+Running this algorithm reduces MSE slightly reduced (MSE=0.0236).
 
 ### Testing for Interactions
 
-From the 20 most important variables, we explore the idea that interactions may exist when typing sequential keys, resulting in an additional 18 variables. The formula including these interactions becomes:
+From the 20 most important variables, we explore the idea that interactions may exist when typing keys that appear sequentially in the password, resulting in an additional 18 variables. The formula including these interactions becomes:
 
 <i>mean.total.time ~ H.period + UD.period.t + H.t + UD.t.i + H.i + UD.i.e + H.e + UD.e.five + H.five + UD.five.Shift.r + H.Shift.r + UD.Shift.r.o + H.o + UD.o.a + H.a + UD.a.n + UD.n.l + H.l + UD.l.Return + H.Return + H.period:UD.period.t + UD.period.t:H.t + H.t:UD.t.i + UD.t.i:H.i + H.i:UD.i.e + UD.i.e:H.e + H.e:UD.e.five + UD.e.five:H.five + H.five:UD.five.Shift.r + UD.five.Shift.r:H.Shift.r + H.Shift.r:UD.Shift.r.o + UD.Shift.r.o:H.o + H.o:UD.o.a + UD.o.a:H.a + H.a:UD.a.n + UD.n.l:H.l + H.l:UD.l.Return + UD.l.Return:H.Return</i>
 
-We find including these interaction terms does not improve the model’s MSE (MSE=0.0236). With no apparent benefit, these interaction terms should not be used when running the algorithm.
+Including these interaction terms does not improve the model’s MSE (MSE=0.0236), and with no apparent benefit, these interaction terms should not be included.
 
 ### Conclusion
 
-We used the data from Killourhy and Maxion and focused on typing speed, namely the speed to type the total passcode. We determined that typing speed does in fact decrease across sessions, implying that typing dynamics in general change as users become accustomed to typing a password. In particular, users become faster at transitioning between letter keys and a non-letter keys (i.e., numbers, period, or return keys). Recognizing this pattern, and potentially others, can lend itself to enhanced authentication methods as someone who is not accustomed to typing the password, i.e. a hacker, would show slower patterns.
+Using the data from Killourhy and Maxion, we determined that typing speed does in fact decrease across sessions, implying that typing dynamics in general change as users become accustomed to typing a password. In particular, users become faster at transitioning between letter keys and a non-letter keys (i.e., numbers, period, or return keys). Recognizing this pattern, and potentially others, can lend itself to enhanced authentication methods as someone who is not accustomed to typing the password, i.e. a hacker, would show slower patterns.
 
-In addition, it would be necessary to investigate how these patterns might change based on age, sex, profession, and possibly many other factors. Some of this type of information may be collected from users voluntarily offering them, via memberships or clubs for example, while other information might be more difficult to collect, such as injury to an individual’s hand. No matter how the information is collected, any enhanced authentication methods would need to reliably factor in this information. 
+In addition, it would be necessary to investigate how these patterns might change based on age, sex, profession, and possibly many other factors. Some of this type of information may be collected from users voluntarily, while other information might be more difficult to collect, such as injury to an individual’s hand. No matter how the information is collected, any enhanced authentication methods would need to reliably factor in this information. 
 
 ### References
 
