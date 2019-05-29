@@ -381,13 +381,17 @@ ANOVA comparison of model 1 and model 2 <br>
     ## Models: <br>
     ## model1: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject) <br>
     ## model2: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject) <br>
-
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Df"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["AIC"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["BIC"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["logLik"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["deviance"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Chisq"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Chi Df"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["Pr(>Chisq)"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"5","2":"-13.16709","3":"6.021563","4":"11.58354","5":"-23.16709","6":"NA","7":"NA","8":"NA","_rn_":"model1"},{"1":"7","2":"-45.99074","3":"-19.126623","4":"29.99537","5":"-59.99074","6":"36.82365","7":"2","8":"1.008896e 08","_rn_":"model2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}</script>
-
-
+    ##
+    ##        | Df     | AIC      | BIC      | logLik | deviance | Chisq  | Chi Df | Pr(>Chisq)
+    -----------------------------------------------------------------------------------------------
+    ## model1 | 5      | -13.167  | 6.0216   | 11.584 | -23.167  | NA     | NA     | NA
+    -----------------------------------------------------------------------------------------------
+    ## model2 | 7      | -45.991  | -19.1266 | 29.995 | -59.991  | 36.824 | 2      | 1.009e-08 ***
+ 
 <figure>
   <figcaption>Figure 4. LME models variance comparison</figcaption>
   <img src="unnamed-chunk-20-1.png" style="width:80%">
-  <img src="unnamed-chunk-20-2.png" style="width:80%">
+
 </figure>
+
+  <img src="unnamed-chunk-20-2.png" style="width:80%">
