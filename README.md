@@ -419,10 +419,10 @@ ANOVA comparison of model 1 and model 2 <br>
   <figcaption>Figure 4. LME models variance comparison</figcaption>
     <div class="row">
       <div class="column">
-        <img src="/images/unnamed-chunk-20-1.png" style="width:80%">
+        <img src="/images/unnamed-chunk-20-1.png" style="width:40%">
       </div>
       <div class="column">
-        <img src="/images/unnamed-chunk-20-2.png" style="width:80%">
+        <img src="/images/unnamed-chunk-20-2.png" style="width:40%">
       </div>
     </div>
 </figure>
