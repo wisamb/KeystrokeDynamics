@@ -300,7 +300,7 @@ Using boxplots (Figure 2), there is a large number of outliers and several extre
     <th>
       <figure>
         <figcaption>Figure 2. Boxplots to identify anomalies</figcaption>
-        <img src="/images/unnamed-chunk-11-1.png" width="70%"/>
+        <img src="/images/unnamed-chunk-11-1.png" width="90%"/>
       </figure> 
     </th>
     <th>
