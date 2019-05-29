@@ -369,7 +369,7 @@ Figure 3 plots the distribution and trend over time of the final dataset. The di
 
 <figure>
   <figcaption>Figure 3. Distribution and trend over time of the final dataset</figcaption>
-  <img src="/images/unnamed-chunk-15-1.png" style="width:80%">
+  <img src="/images/unnamed-chunk-15-1.png" width="70%"/>
 </figure> 
 
 ## Linear Mixed-Effects Model
@@ -379,8 +379,8 @@ We run two versions of the linear mixed-effects model: using subject alone for r
 ANOVA comparison of model 1 and model 2 <br>
 
     ## Models: <br>
-    ## model1: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject) <br>
-    ## model2: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject) <br>
+    ## model1: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject) 
+    ## model2: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject)
     
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
   <tr>
@@ -417,19 +417,12 @@ ANOVA comparison of model 1 and model 2 <br>
  
 <figure>
   <figcaption>Figure 4. LME models variance comparison</figcaption>
-    <div class="row">
-      <div class="column">
-        
-      </div>
-      <div class="column">
-        
-      </div>
-    </div>
+    <table>
+      <tr>
+        <th><img src="/images/unnamed-chunk-20-1.png" style="width:40%"></th>
+        <th><img src="/images/unnamed-chunk-20-2.png" style="width:40%"></th>
+      </tr>
+    </table> 
 </figure>
 
-<table>
-  <tr>
-    <th><img src="/images/unnamed-chunk-20-1.png" style="width:40%"></th>
-    <th><img src="/images/unnamed-chunk-20-2.png" style="width:40%"></th>
-  </tr>
-</table> 
+
