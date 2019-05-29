@@ -306,7 +306,7 @@ Using boxplots (Figure 2), there is a large number of outliers and several extre
     <th>
       <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Table 3. Frequency of Patients with Extreme Values <br><br>
+Table 3. Frequency of Patients with Extreme Values <br>
 </caption>
 <thead>
 <tr>
