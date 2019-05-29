@@ -467,34 +467,34 @@ Each individual feature is also plotted across sessions (Figure 8) and plots are
   <figcaption>Figure 8. Plots of Individual Features Across Sessions</figcaption>
   <table>
   <tr>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-1a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-2a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-3a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-4a.png"></td>
   </tr>
   <tr>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-5a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-6a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-7a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-8a.png"></td>
   </tr>
   <tr>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-9a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-10a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-11a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-12a.png"></td>
   </tr>
   <tr>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-13a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-14a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-15a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-16a.png"></td>
   </tr>
   <tr>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
-    <td><img src="/images/unnamed-chunk-30-1.png"></td>
+    <td><img src="/images/unnamed-chunk-30-17a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-18a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-19a.png"></td>
+    <td><img src="/images/unnamed-chunk-30-20a.png"></td>
   </tr>
 </table>
 </figure>
