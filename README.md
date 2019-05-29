@@ -381,12 +381,39 @@ ANOVA comparison of model 1 and model 2 <br>
     ## Models: <br>
     ## model1: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (1 | subject) <br>
     ## model2: mean.total.time.y ~ sessionIndex.y + mean.total.time.x + (sessionIndex.y | subject) <br>
-    ##
-            | Df     | AIC      | BIC      | logLik | deviance | Chisq  | Chi Df | Pr(>Chisq) <br>
-    ------- | ------ | -------- | -------- | ------ | -------- | ------ | ------ | -------------- <br>
-     model1 | 5      | -13.167  | 6.0216   | 11.584 | -23.167  | NA     | NA     | NA <br>
-    ------- | ------ | -------- | -------- | ------ | -------- | ------ | ------ | -------------- <br>
-     model2 | 7      | -45.991  | -19.1266 | 29.995 | -59.991  | 36.824 | 2      | 1.009e-08 *** <br>
+    
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+  <tr>
+    <th></th>
+    <th>Df</th>
+    <th>AIC</th>
+    <th>logLik</th>
+    <th>deviance</th>
+    <th>Chisq</th>
+    <th>Chi Df</th>
+    <th>Pr(&gt;Chisq)</th>
+  </tr>
+  <tr>
+    <td>model1</td>
+    <td>5</td>
+    <td>-13.167</td>
+    <td>6.0216</td>
+    <td>11.584</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>model2</td>
+    <td>7</td>
+    <td>-45.991</td>
+    <td>-19.1266</td>
+    <td>29.995</td>
+    <td>36.824</td>
+    <td>2</td>
+    <td>1.009e-08 ***</td>
+  </tr>
+</table>
  
 <figure>
   <figcaption>Figure 4. LME models variance comparison</figcaption>
