@@ -1,15 +1,5 @@
 # Keystroke Dynamics
 
-<b>Programming Languages/Software:</b> R, RStudio
-
-<b>Skills Used:</b><br>
-Data Analysis<br>
-Data Visualization<br>
-Exploratory Analysis<br>
-Statistical Models<br>
-Machine Learning Algorithms<br>
-Variable Importance
-
 ## Introduction
 
 Keystroke dynamics has been a topic of research since the early 1980s.<sup>6</sup> It is a behavioral biometric that can potentially identify a user based on their typing habits. With the burgeoning market of e-commerce over the past decade, keystroke dynamics has presented itself as a potential added layer of security. The phenomenon is based on the idea that each individual possesses his or her own unique typing habits. By analyzing the way users type, password protected websites can use it in combination with passwords to authenticate a user. 
