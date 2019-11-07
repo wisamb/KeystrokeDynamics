@@ -24,7 +24,7 @@ Using a correlation matrix, we find there are several highly correlated columns,
 
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <caption>
-Table 1. Correlated Variables for HCC Survival Dataset
+Table 1. Correlated Variables for Killourhy and Maxion Dataset
 </caption>
 <thead>
 <tr>
